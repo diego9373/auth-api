@@ -18,4 +18,6 @@ public class UsuarioController {
     private UsuarioDto salvar(@RequestBody UsuarioDto usuarioDto) {
         return   usuarioService.salvar(usuarioDto);
     }
+
+
 }

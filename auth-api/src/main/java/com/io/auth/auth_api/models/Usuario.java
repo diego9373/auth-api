@@ -1,5 +1,6 @@
 package com.io.auth.auth_api.models;
 
+import com.io.auth.auth_api.enums.RoleEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,10 @@ public class Usuario {
     private String name;
     private String login;
     private String senha;
+
+    private RoleEnum role;
+
+    public Usuario(){}
 
     public Usuario(String name, String login, String senha) {
         this.name = name;
@@ -52,4 +57,5 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
 }
