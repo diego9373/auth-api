@@ -3,6 +3,7 @@ package com.io.auth.auth_api.services.impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.io.auth.auth_api.dtos.AuthDto;
 import com.io.auth.auth_api.models.Usuario;
 import com.io.auth.auth_api.repository.UsuarioRepository;
@@ -60,5 +61,20 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
         return LocalDateTime.now()
                 .plusHours(8)
                 .toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public String validarTokenJwt(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("my-secret");
+
+            return JWT.require(algorithm)
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException exception) {
+            return " " ;
+
+        }
     }
 }
