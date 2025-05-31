@@ -1,6 +1,7 @@
 package com.io.auth.auth_api.controller;
 
 import com.io.auth.auth_api.dtos.AuthDto;
+import com.io.auth.auth_api.services.AutenticacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class AutenticacaoController {
 
     @Autowired
+    private AutenticacaoService autenticacaoService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping
@@ -21,6 +25,6 @@ public class AutenticacaoController {
         authenticationManager.authenticate(usuarioAutenticationToken);
 
 
-        return "token .... ";
+        return autenticacaoService.obterToken(authDto);
     }
 }
