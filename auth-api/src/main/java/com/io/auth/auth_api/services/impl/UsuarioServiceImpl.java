@@ -5,10 +5,14 @@ import com.io.auth.auth_api.models.Usuario;
 import com.io.auth.auth_api.repository.UsuarioRepository;
 import com.io.auth.auth_api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -22,7 +26,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("Usuário já existe!");
         }
 
-        Usuario entity = new Usuario(usuarioDto.name(),usuarioDto.login(),usuarioDto.senha());
+        var passwordHash = passwordEncoder.encode(usuarioDto.senha());
+
+        Usuario entity = new Usuario(usuarioDto.name(),usuarioDto.login(),passwordHash);
+
+
         Usuario novoUsuario =  usuarioRepository.save(entity);
         return new UsuarioDto(novoUsuario.getName(),novoUsuario.getLogin(),novoUsuario.getSenha());
     }
